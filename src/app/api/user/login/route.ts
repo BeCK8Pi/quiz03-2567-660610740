@@ -2,13 +2,13 @@ import jwt from "jsonwebtoken";
 
 import { DB, readDB } from "@lib/DB";
 import { NextRequest, NextResponse } from "next/server";
-
+import { dbinterface } from "@lib/DB";
 export const POST = async (request: NextRequest) => {
   readDB();
   const body = await request.json();
   const { username , password } = body;
 
-  const user = DB.users.find((x) => username === x.username && password === x.password)
+  const user = (<dbinterface>DB).users.find((x) => username === x.username && password === x.password)
 
   if(!user) return NextResponse.json(
      {

@@ -25,6 +25,11 @@ export interface dbinterface {
   users: User[];
 }
 
+export interface Payload{
+  username: string;
+  role: string;
+}
+
 const originalDB:dbinterface = {
   rooms: [
     {

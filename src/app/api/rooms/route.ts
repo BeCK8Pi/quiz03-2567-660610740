@@ -1,11 +1,12 @@
-import { DB, readDB, writeDB } from "@lib/DB";
+import { DB, Payload, readDB, writeDB } from "@lib/DB";
 import { checkToken } from "@lib/checkToken";
 import { nanoid } from "nanoid";
 import { NextRequest, NextResponse } from "next/server";
+import { dbinterface } from "@lib/DB";
 
 export const GET = async () => {
   readDB();
-  const rooms = DB.rooms;
+  const rooms = (<dbinterface>DB).rooms;
   let totalRooms = 0;
   for(const r in rooms){
     totalRooms += 1;
@@ -21,7 +22,7 @@ export const GET = async () => {
 export const POST = async (request: NextRequest) => {
   const payload = checkToken();
 
-  if(!payload || !(payload.role === "ADMIN" || payload.role === "SUPER_ADMIN")) return NextResponse.json(
+  if(!payload || !((<Payload>payload).role === "ADMIN" || (<Payload>payload).role === "SUPER_ADMIN")) return NextResponse.json(
      {
        ok: false,
        message: "Invalid token",
@@ -34,7 +35,7 @@ export const POST = async (request: NextRequest) => {
 
   const body = await request.json();
 
-  const sameRoom = DB.rooms.find((x) => x.roomName === body.roomName);
+  const sameRoom = (<dbinterface>DB).rooms.find((x) => x.roomName === body.roomName);
 
   if(sameRoom) return NextResponse.json(
      {
@@ -49,7 +50,7 @@ export const POST = async (request: NextRequest) => {
   const newRoom = { roomId , roomName };
 
   //call writeDB after modifying Database
-   DB.rooms.push(newRoom);
+  (<dbinterface>DB).rooms.push(newRoom);
   writeDB();
 
   return NextResponse.json({

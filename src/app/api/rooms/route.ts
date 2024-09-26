@@ -8,8 +8,9 @@ export const GET = async () => {
   readDB();
   const rooms = (<dbinterface>DB).rooms;
   let totalRooms = 0;
-  for(const r in rooms){
+  for(let r in rooms){
     totalRooms += 1;
+    r = r;
   }
   return NextResponse.json({
     ok: true,

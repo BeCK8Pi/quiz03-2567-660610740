@@ -66,7 +66,6 @@ export const DELETE = async (request: NextRequest) => {
      {
        ok: false,
        message: "Message is not found",
-       payload:payload,
      },
      { status: 404 }
    );

@@ -60,7 +60,6 @@ export const DELETE = async (request: NextRequest) => {
    );
 
   readDB();
-   const textFind = DB.messages.find((x)=> x.messageId === body.messageId);
     const foundIndex = DB.messages.findIndex((x) => x.messageId === body.messageId);
    if(foundIndex === -1) return NextResponse.json(
      {

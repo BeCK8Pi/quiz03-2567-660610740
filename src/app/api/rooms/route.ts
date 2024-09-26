@@ -10,7 +10,6 @@ export const GET = async () => {
   let totalRooms = 0;
   for(const r in rooms){
     totalRooms += 1;
-    r;
   }
   return NextResponse.json({
     ok: true,
